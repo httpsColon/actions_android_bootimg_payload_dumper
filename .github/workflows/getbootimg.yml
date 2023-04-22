@@ -16,7 +16,7 @@ on:
         PARTITIONS:
           description: 'Partitions which you need to extract(Such as boot,vendor_dlkm,...,vendor_boot)'
           required: true
-          default: "boot"
+          default: "boot,vbmeta"
           type: string
         
     
