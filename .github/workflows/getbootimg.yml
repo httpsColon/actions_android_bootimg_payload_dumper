@@ -61,7 +61,10 @@ jobs:
        cd ~
        cd payload_dumper_go
        ./payload-dumper-go -o ~/payload_dumper_go -p ${{ github.event.inputs.PARTITIONS }} payload.bin
-       git clone https://github.com/jax0ncai/Magisk_patche.git ./
+       git clone https://github.com/jax0ncai/Magisk_patche.git Magisk
+       mv boot.img Magisk/
+       mv vbmeta.img Magisk/
+       cd Magisk
        mkdir done
        ./boot.sh
    
@@ -71,8 +74,8 @@ jobs:
       with:
         name: Image-files
         path: |
-          ~/payload_dumper_go/*.img
-          ~/payload_dumper_go/done/*.*
+          ~/payload_dumper_go/Magisk/*.img
+          ~/payload_dumper_go/done/*
           
     - name: Upload images to WeTransfer
       if: github.event.inputs.UPLOAD_CONFIG == 'false'
