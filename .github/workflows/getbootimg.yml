@@ -56,18 +56,17 @@ jobs:
        cd ~
        unzip rom.zip -d payload_dumper_go
     
-    - name: extract the payload.bin，并修补原boot.img
+    - name: extract the payload.bin，patch the boot.img
       run: |
        cd ~
        cd payload_dumper_go
        chmod +x payload-dumper-go
        ./payload-dumper-go -o ~/payload_dumper_go -p ${{ github.event.inputs.PARTITIONS }} payload.bin
-       git clone https://github.com/xyazzrany/Magisk_patche.git Magisk
+       git clone https://github.com/entr0pia/magisk_patch.git Magisk
        mv boot.img Magisk/
        mv vbmeta.img Magisk/
        cd Magisk
-       mkdir done
-       ./boot.sh
+       ./boot_patch.sh boot.img
    
     - name: Upload Artifact
       if: github.event.inputs.UPLOAD_CONFIG == 'true'
@@ -76,11 +75,10 @@ jobs:
         name: Image-files
         path: |
           ~/payload_dumper_go/Magisk/*.img
-          ~/payload_dumper_go/done/*
           
     - name: Upload images to WeTransfer
       if: github.event.inputs.UPLOAD_CONFIG == 'false'
       run: |
         cd ~
         curl -sL https://git.io/file-transfer | sh
-        ./transfer wet ~/payload_dumper_go/*.img
+        ./transfer wet ~/payload_dumper_go/Magisk/*.img
