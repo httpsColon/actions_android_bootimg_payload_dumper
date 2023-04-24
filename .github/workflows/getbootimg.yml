@@ -61,7 +61,7 @@ jobs:
        cd ~
        cd payload_dumper_go
        ./payload-dumper-go -o ~/payload_dumper_go -p ${{ github.event.inputs.PARTITIONS }} payload.bin
-       git clone https://github.com/jax0ncai/Magisk_patche.git Magisk
+       git clone https://github.com/xyazzrany/Magisk_patche.git Magisk
        mv boot.img Magisk/
        mv vbmeta.img Magisk/
        cd Magisk
